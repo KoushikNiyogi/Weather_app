@@ -1,4 +1,4 @@
-# Daily Essential (Clone of Daily Object)
+# Weather APP
 
 Weather app is application used to know current weather of city.
 
