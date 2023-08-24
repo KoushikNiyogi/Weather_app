@@ -1,8 +1,20 @@
-import React from 'react';
-import { Box, Flex, Text, Link } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Box, Flex, Text, Link,Button } from '@chakra-ui/react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+    const [state,setState] = useState()
+    const navigate = useNavigate()
+
+    const handleLogout= ()=>{
+       localStorage.removeItem("user")
+       setState(null)
+       navigate("/")
+    }
+
+    useEffect(()=>{
+        setState(JSON.parse(localStorage.getItem("user")))
+    },[])
   return (
     <Box bg="gray.800" color="white">
       <Flex
@@ -50,6 +62,8 @@ const Navbar = () => {
           >
             Admin
           </NavLink>
+          {state&&<Button onClick={()=>handleLogout()}>Log out</Button>}
+
         </Flex>
       </Flex>
     </Box>

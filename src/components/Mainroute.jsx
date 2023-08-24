@@ -5,6 +5,7 @@ import Weather from './Weather'
 import Signup from './Signup'
 import PrivateRoute from './PrivateRoute'
 import Admin from './Admin'
+import AdminPriveteRoute from './AdminPriveteRoute'
 
 const Mainroute = () => {
   return (
@@ -12,7 +13,7 @@ const Mainroute = () => {
         <Route path='/' element={<Login/>}/>
         <Route path='/weather' element={<PrivateRoute><Weather/></PrivateRoute>}/>
         <Route path='/register' element={<Signup/>}/>
-        <Route path="/admin" element={<Admin/>}/>
+        <Route path="/admin" element={<AdminPriveteRoute><Admin/></AdminPriveteRoute>}/>
     </Routes>
   )
 }
