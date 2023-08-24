@@ -35,7 +35,8 @@ To get started with the project, you will need to clone the repository to your P
 # Contribution
 - Koushik Niyogi
 
-# WeatherAPI link :- http://api.weatherapi.com/v1/current.json?key=<Access_Key>&q=${city}
+# WeatherAPI link :
+- http://api.weatherapi.com/v1/current.json?key=<Access_Key>&q=${city}
 
 # screenshot
 
