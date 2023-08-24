@@ -1,3 +1,66 @@
+# Daily Essential (Clone of Daily Object)
+
+Weather app is application used to know current weather of city.
+
+# Getting Started
+To get started with the project, you will need to clone the repository to your PC .
+to install dependencies use command => npm i
+To run the react appliction use command => npm run start
+
+# Tech Stack
+
+## Frontend
+
+=
+- React
+- React-Router-Dom
+- Redux
+- React-Redux
+- Chakra UI
+- Weather API for fecthing current weather of city
+
+
+# Pages
+- Signup and Login
+- Weather page(protected login to view page)
+- Admin Page
+
+# Features
+- Register new user
+- Search a city by name
+- current weather data of the city
+
+# Challenges
+-Integrrating weather api into react application
+
+# Contribution
+- Koushik Niyogi
+
+# Deployed Link :- 
+
+# screenshot
+
+## Landing Page
+![Uploading Screenshot (36).png…](https://github.com/KoushikNiyogi/tough-request-5163/assets/112868723/e3d4d9f2-7eb6-4f5f-8b19-c54994c6eeca)
+
+## Product Page
+![Uploading Screenshot (37).png…](https://github.com/KoushikNiyogi/tough-request-5163/assets/112868723/a99817a5-f8bb-422a-a6bc-228553062bf7)
+
+## Single Product Page
+![Screenshot (38)](https://github.com/KoushikNiyogi/tough-request-5163/assets/112868723/91500ce6-36de-40bb-9b8b-a9c470a7eb3a)
+
+## Cart Page
+![Screenshot (39)](https://github.com/KoushikNiyogi/tough-request-5163/assets/112868723/85efccec-63ea-4dca-9e5b-732f1a3b1923)
+
+## Payment Page
+![Screenshot (40)](https://github.com/KoushikNiyogi/tough-request-5163/assets/112868723/de86f3f9-527d-4e2a-9c98-fd937b413a8d)
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
