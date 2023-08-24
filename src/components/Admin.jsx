@@ -21,7 +21,9 @@ const Admin = () => {
     localStorage.setItem("users",JSON.stringify(updatedUsers))
     setFlag(!flag);
   };
+
  console.log(flag)
+ 
   return (
     <Table variant="simple">
       <Thead>
