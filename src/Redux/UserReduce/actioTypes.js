@@ -1,0 +1,4 @@
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS"
+export const POST_USER_SUCCESS = "POST_USER_SUCCESS"
+export const USER_LOADING = "USER_LOADING"
+export const USER_ERROR = "USER_ERROR"
