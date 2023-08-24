@@ -35,7 +35,7 @@ To get started with the project, you will need to clone the repository to your P
 # Contribution
 - Koushik Niyogi
 
-# Deployed Link :- 
+# WeatherAPI link :- 
 
 # screenshot
 
