@@ -1,33 +1,135 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from "axios"
-import { Input, Button, Flex, Box, Container, Text, Image } from '@chakra-ui/react';
+import { Input, Button, Flex, Box, Container, Text, Image, RadioGroup, Stack, Radio } from '@chakra-ui/react';
 import { WiBarometer, WiThermometer, WiHorizonAlt, WiHumidity, WiWindDeg, WiWindBeaufort12 } from "weather-icons-react";
+import WeatherSingleCity from './WeatherSingleCity';
+import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import Example from './Example';
+
+
+
+
 const Weather = () => {
-    const [city, setCity] = useState("")
-    const [data, setData] = useState(null)
+    const [city, setCity] = useState("");
+    const [data, setData] = useState(JSON.parse(localStorage.getItem("data"))||[])
     const [count, setCount] = useState(0)
+    const [city_array, setCity_array] = useState([])
+    const [index, setIndex] = useState(0);
+    const ref = useRef(null)
+
+    const fetchCityWeatherDetails = ()=>{
+        axios.get(`http://api.weatherapi.com/v1/current.json?key=90e44dd303ad4f2d94344416232408&q=${city}`)
+        .then((res)=>{
+          console.log(res);
+          setData({
+            location : {
+               name : res.data.location.name,
+               region : res.data.location.region,
+               country : res.data.location.country,
+            },
+            current : [
+            {
+                name : "Temperature",
+                value : `${res.data.current.temp_c} C`,
+                icon : "WiThermometer"
+            },
+            {
+                name : "Temp. feels like",
+                value : `${res.data.current.feelslike_c} C`,
+                icon : "WiThermometer"
+            },
+            {
+                name : "Pressure",
+                value : `${res.data.current.pressure_mb} mb`,
+                icon : "WiBarometer"
+            },
+            {
+                name : "Humidity",
+                value : `${res.data.current.humidity} %`,
+                icon : "WiHumidity"
+            },
+            {
+                name : "Wind Degree",
+                value : `${res.data.current.wind_degree} %`,
+                icon : "WiWindDeg"
+            },
+            {
+                name : "wind speed",
+                value : `${res.data.current.wind_kph} kmph`,
+                icon : "WiWindBeaufort12"
+            },
+            {
+                name : "Weather condition",
+                value : res.data.current.condition.text,
+                icon : "WiDaySunny"
+            }
+          ]})
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
     const handleSearch = () => {
-        fetchWeatherDetails()
+        fetchCityWeatherDetails()
         setCount((prev) => prev + 1)
     }
 
-    const fetchWeatherDetails = () => {
-        axios.get(`http://api.weatherapi.com/v1/current.json?key=90e44dd303ad4f2d94344416232408&q=${city}`)
-            .then((res) => {
-                console.log(res)
-                setData(res.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+    const handleChangeRadio = (value) => {
+        console.log(value)
+        setIndex(prev => Number(value))
     }
-    /*useEffect(()=>{
-       fetchWeatherDetails(city)
-    },[count])*/
-    console.log(process.env.API_KEY)
+
+    const handlePrev = ()=>{
+       setIndex(pre => (Number(pre)+city_array.length -1) % city_array.length)
+    }
+
+    const handleNext= ()=>{
+        setIndex(pre => (Number(pre)+ 1) % city_array.length)
+    }
+
+    const fetchWeatherDetails = async (array) => {
+        const promises = array.map(city => {
+            return axios.get(`http://api.weatherapi.com/v1/current.json?key=90e44dd303ad4f2d94344416232408&q=${city}`);
+        });
+
+        try {
+            const responses = await Promise.all(promises);
+            const cityDetails = responses.map(res => res.data);
+            setCity_array(prevCityArray => [...prevCityArray, ...cityDetails]);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    useEffect(() => {
+        const array = ["Mumbai", "Bangalore", "Hyderabad"]
+        city_array.length < 3 && fetchWeatherDetails(array)
+    }, [])
+    console.log(data)
+
+    const intervalFunc = ()=>{
+        if(ref.current != undefined){
+            return
+        }else{
+            ref.current = setInterval(() => {
+                setIndex(prev => (Number(prev)+1) % 3)
+            }, 10000);
+        }
+    };
+
+
+    useEffect(() => {
+        intervalFunc()
+       
+        return () => {
+            clearInterval(ref.current)
+        }
+    }, [])
+    console.log(index,typeof index)
+
     return (
-        <Box w={"90%"} margin={"auto"} centerContent>
-            <Box mt={10} p={6} borderWidth={1} borderRadius="lg">
+        <Box w={"90%"} margin={"auto"} >
+            <Box mt={10} p={6} >
                 <Flex direction="row" justify={"center"} >
                     <Box mb={4} mr={5}>
                         <Input
@@ -43,82 +145,28 @@ const Weather = () => {
                 </Flex>
             </Box>
 
+            {data.length!=0&&<Example City_Data = {[data,setData]}/>}
+
             {/* Weather details */}
-            {data && <Box w="100%" mt={8} p={6} borderWidth={1} borderRadius="lg">
-                <Flex direction="column" align="center">
-                    <Box mb={4} textAlign="center">
-                        <Flex>
-                            <Box>
-                                <Text fontSize={"xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>Location</Text>
-                                <Text fontSize={"2xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>{data.location.name}</Text>
-                            </Box>
-                            <Box>
-                                <Text fontSize={"xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>Region</Text>
-                                <Text fontSize={"2xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>{data.location.region}</Text>
-                            </Box>
-                            <Box>
-                                <Text fontSize={"xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>Country</Text>
-                                <Text fontSize={"2xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>{data.location.country}</Text>
-                            </Box>
-                            <Box>
-                                <Text fontSize={"xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>Time Zone</Text>
-                                <Text fontSize={"2xl"} fontWeight={"bold"} p={"1rem"} mr={"1rem"}>{data.location.tz_id}</Text>
-                            </Box>
-                        </Flex>
-                    </Box>
-                    <Box textAlign="center" >
-                        {/* Weather details */}
-                        <Flex w="100%" justify={"space-evenly"}>
-                            <Flex direction={"column"} border={"2px solid #5331de"} borderRadius={"20px"} mr={"20px"} p="10px" align={"center"} justify={"center"}>
-                                <WiThermometer size={100} color='#5331de' />
-                                <Flex direction={"row"}>
-                                    <Box p={"5px"} borderRight={"1px solid black"}>
-                                        <Text>{data.current.temp_c}</Text>
-                                        <Text>Temperature <br /> in C</Text>
-                                    </Box>
-                                    <Box p={"5px"}>
-                                        <Text>{data.current.feelslike_c}</Text>
-                                        <Text>Temperature <br />feels like</Text>
-                                    </Box>
-                                </Flex>
-                            </Flex>
+            {city_array.length != 0 &&
 
-                            <Flex direction={"column"} border={"2px solid #5331de"} mr={"20px"} borderRadius={"20px"} p="10px" align={"center"} justify={"center"}>
-                                <WiBarometer size={100} color='#5331de' />
-                                <Text>{data.current.pressure_mb}</Text>
-                                <Text>Pressure <br /> in mb</Text>
-                            </Flex>
-                            <Flex direction={"column"} border={"2px solid #5331de"} mr={"20px"} borderRadius={"20px"} p="10px" align={"center"} justify={"center"}>
-                                <WiHumidity size={100} color='#5331de' />
-                                <Text>{data.current.humidity}%</Text>
-                                <Text>Humidity</Text>
-                            </Flex>
-
-                            <Flex direction={"row"} border={"2px solid #5331de"} mr={"20px"} borderRadius={"20px"} p="10px" align={"center"} justify={"center"}>
-                                <Flex direction={"column"} p="10px" align={"center"} justify={"center"}>
-                                    <WiWindDeg size={100} color='#5331de' />
-                                    <Text>{data.current.wind_degree}%</Text>
-                                    <Text>Wind Degree</Text>
-                                </Flex>
-                                <Flex direction={"column"} p="10px" align={"center"} justify={"center"}>
-                                    <WiWindBeaufort12 size={100} color='#5331de' />
-                                    <Text>{data.current.wind_kph} kmph</Text>
-                                    <Text>wind speed</Text>
-                                </Flex>
-                            </Flex>
-
-                            <Flex direction={"column"} border={"2px solid #5331de"} mr={"20px"} borderRadius={"20px"} p="10px" align={"center"} justify={"center"}>
-
-                                <Image src='http://cdn.worldweatheronline.com/images/weather/small/116_night_sm.png' alt='Dan Abramov' />
-                                <Text>{data.current.condition.text}</Text>
-                                <Text>Weather condition</Text>
-
-
-                            </Flex>
-                        </Flex>
-                    </Box>
-                </Flex>
-            </Box>}
+                <Box position={"relative"} borderWidth={1} borderRadius="lg" p={"40px"}>
+                    <Text fontSize={"2xl"}>Weather of Popular Cities</Text>
+                    <ArrowLeftIcon boxSize={6} position={"absolute"} left={"10px"} top={"50%"} onClick={()=>handlePrev()}/>
+                    <WeatherSingleCity data={city_array[index]} />
+                    <ArrowRightIcon position={"absolute"} boxSize={6} right={"10px"} top={"50%"} onClick={()=>handleNext()}/>
+                    <RadioGroup  position={"absolute"} onChange={handleChangeRadio} value={index} bottom={"20px"} left={"50%"}>
+                        <Stack direction='row'>
+                            {
+                                city_array.map((_, i) => {
+                                    return <Radio backgroundColor={index == i ? "black" : "white"}  borderColor={"black"} value={i}  // Use strict equality here as well
+                                    key={i}></Radio>
+                                })
+                            }
+                        </Stack>
+                    </RadioGroup>
+                </Box>
+            }
         </Box>
 
     )

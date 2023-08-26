@@ -1,0 +1,31 @@
+/* Apply the necessary CSS for smooth animations */
+
+/* Example styling for dragging state */
+.react-beautiful-dnd-draggable {
+    transition: background-color 0.2s ease;
+  }
+  
+  /* Add this CSS to ensure smooth drag-and-drop animations */
+  .react-beautiful-dnd-dragging {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  /* Apply additional styling to the weather container */
+  .weather-container {
+    display: flex;
+    width: 90%;
+    margin: auto;
+    justify-content: "center";
+  }
+  
+  /* Apply styling to the individual weather tiles */
+  .weather-tile {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    min-width: 100px;
+    text-align: center;
+    background-color: white;
+    /* Add more styling as needed */
+  }
+  

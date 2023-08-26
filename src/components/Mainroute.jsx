@@ -6,6 +6,7 @@ import Signup from './Signup'
 import PrivateRoute from './PrivateRoute'
 import Admin from './Admin'
 import AdminPriveteRoute from './AdminPriveteRoute'
+import Example from './Example'
 
 const Mainroute = () => {
   return (
@@ -14,6 +15,8 @@ const Mainroute = () => {
         <Route path='/weather' element={<PrivateRoute><Weather/></PrivateRoute>}/>
         <Route path='/register' element={<Signup/>}/>
         <Route path="/admin" element={<AdminPriveteRoute><Admin/></AdminPriveteRoute>}/>
+        <Route path="/example" element={<Example/>}/>
+
     </Routes>
   )
 }
