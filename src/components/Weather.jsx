@@ -25,7 +25,7 @@ const Weather = () => {
     {/* --------------------------code handles fetching current weather data required for drag and drop functionality ------------------*/}
 
     const fetchCityWeatherDetails = () => {
-        axios.get(`http://api.weatherapi.com/v1/current.json?key=90e44dd303ad4f2d94344416232408&q=${city}`)
+        axios.get(`https://api.weatherapi.com/v1/current.json?key=90e44dd303ad4f2d94344416232408&q=${city}`)
             .then((res) => {
                 setData({
                     location: {
@@ -104,7 +104,7 @@ const Weather = () => {
 
     const fetchWeatherDetails = async (array) => {
         const promises = array.map(city => {
-            return axios.get(`http://api.weatherapi.com/v1/current.json?key=90e44dd303ad4f2d94344416232408&q=${city}`);
+            return axios.get(`https://api.weatherapi.com/v1/current.json?key=90e44dd303ad4f2d94344416232408&q=${city}`);
         });
 
         try {
