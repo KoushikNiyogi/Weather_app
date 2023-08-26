@@ -12,7 +12,7 @@ import Example from './Example';
 const Weather = () => {
     {/* -------------------------states that are used for currrent weather and drag and drop -----------------*/}
     const [city, setCity] = useState("");
-    const [data, setData] = useState(JSON.parse(localStorage.getItem("data")) || [])
+    const [data, setData] = useState(JSON.parse(localStorage.getItem("data")) || null)
    
     {/* -------------------------states those are used for carousel ---------------- */}
    
@@ -20,7 +20,7 @@ const Weather = () => {
     const [index, setIndex] = useState(0);
     const ref = useRef(null)
 
-    const [user,setUser] = useState(JSON.parse(localStorage.getItem("user"))||{})
+    const [user,setUser] = useState(JSON.parse(localStorage.getItem("user"))||null)
     const toast = useToast()
     {/* --------------------------code handles fetching current weather data required for drag and drop functionality ------------------*/}
 
@@ -195,7 +195,7 @@ const Weather = () => {
           })
     },[])
 
-
+    console.log(data)
     return (
         <Box w={"90%"} margin={"auto"} >
             <Box mt={10} p={6} >
@@ -215,7 +215,7 @@ const Weather = () => {
             </Box>
 
             <Box>
-            {data.length != 0 && <Example City_Data={[data, setData]} />}
+            {data && <Example City_Data={[data, setData]} />}
             <Button onClick={handleSave}>Save Rearrangement</Button>
             </Box>
             {/* Weather details */}
