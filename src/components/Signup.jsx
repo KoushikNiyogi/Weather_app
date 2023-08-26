@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../Redux/UserReduce/action';
+import axios from 'axios';
 
 const init = {
     name : "",
@@ -20,31 +21,35 @@ const init = {
 }
 
 function Signup() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const toast = useToast();
-    const {users} = useSelector(store => store.user)
 
     const[details,setDetails] = useState(init)
 
     const handleSignup = async () => {
-        let flag = false;
-        users.forEach((element) => {
-            if(element.email == details.email){
-                flag = true
-            }
-        });
-        if(flag){
-            alert("User already exists")
-        }else{
-            localStorage.setItem("users", JSON.stringify([...users,details]))
-            dispatch(registerUser(details))
-            alert("Registration successful")
+        axios.post("https://weather-app-backend-snuw.onrender.com/user/register",details)
+        .then((res)=>{
             navigate("/")
-        }
+            toast({
+                title: 'Account created.',
+                description: "We've created your account for you.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+              })
+        })
+        .catch((err)=>{
+            console.log(err.response.data.msg)
+            toast({
+                title: 'Account is not created.',
+                description: err.response.data.msg,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+              })
+        })
         
     };
-    console.log(users)
 
     return (
         <Box maxW="400px" mx="auto" p={4}>

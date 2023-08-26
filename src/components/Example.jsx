@@ -22,13 +22,8 @@ const Example = ({ City_Data }) => {
     setData({...data,current : items});
   };
 
-  const handleSave = () => {
-    console.log("Rearranged array:", data);
-    setData(data)
-    // Add logic here to save the rearranged order to the backend
-  };
+  
 
-  console.log(data, setData);
 
   return (
     <Box>
@@ -75,7 +70,6 @@ const Example = ({ City_Data }) => {
           )}
         </Droppable>
       </DragDropContext>
-      <Button onClick={handleSave}>Save Rearrangement</Button>
     </Box>
   );
 };

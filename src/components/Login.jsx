@@ -11,6 +11,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 function Login() {
   const navigate = useNavigate();
@@ -30,25 +31,29 @@ function Login() {
       localStorage.setItem("user",JSON.stringify(obj))
       navigate("/admin")
     }else{
-      let user = {};
-      users.forEach(element => {
-        console.log(element)
-        if(element.email == email){
-            user = element
-        }
-      });
-      console.log(user)
-      if(email == user.email){
-        if(password == user.password){
-            alert("Login Successful")
-            localStorage.setItem("user",JSON.stringify(user))
-            navigate("/weather")
-        }else{
-            alert("wrong password")
-        }
-      }else{
-        alert("User not found")
-      }
+      axios.post("https://weather-app-backend-snuw.onrender.com/user/login",{email,password})
+      .then((res)=>{
+          localStorage.setItem("token",res.data.token);
+          localStorage.setItem("user",JSON.stringify(res.data.user))
+          navigate("/weather")
+          toast({
+              title: 'Login Successful.',
+              description: res.data.msg,
+              status: 'success',
+              duration: 9000,
+              isClosable: true,
+            })
+      })
+      .catch((err)=>{
+          console.log(err.response.data.msg)
+          toast({
+              title: 'Account is not created.',
+              description: err.response.data.msg,
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            })
+      })
     }
   };
   return (

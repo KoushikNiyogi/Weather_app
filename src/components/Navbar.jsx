@@ -3,17 +3,19 @@ import { Box, Flex, Text, Link,Button } from '@chakra-ui/react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const [state,setState] = useState()
+    const [state,setState] = useState(localStorage.getItem("token")||"")
     const navigate = useNavigate()
 
     const handleLogout= ()=>{
-       localStorage.removeItem("user")
+       localStorage.removeItem("token");
+       localStorage.removeItem("user");
+       localStorage.removeItem("data")
        setState(null)
        navigate("/")
     }
 
     useEffect(()=>{
-        setState(JSON.parse(localStorage.getItem("user")))
+        setState(localStorage.getItem("token"))
     },[])
   return (
     <Box bg="gray.800" color="white">
