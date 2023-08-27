@@ -138,7 +138,7 @@ const Weather = () => {
         // Add logic here to save the rearranged order to the backend
         axios({
             method: 'patch',
-            url: "https://weather-app-backend-snuw.onrender.com/user/weatherData",
+            url: "https://ill-pink-salmon-garb.cyclic.cloud/user/weatherData",
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": localStorage.getItem("token")
@@ -179,7 +179,7 @@ const Weather = () => {
     useEffect(()=>{
         axios({
             method: 'get',
-            url: "https://weather-app-backend-snuw.onrender.com/user/currentcity",
+            url: "https://ill-pink-salmon-garb.cyclic.cloud/user/currentcity",
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": localStorage.getItem("token")

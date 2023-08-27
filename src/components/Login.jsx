@@ -31,7 +31,7 @@ function Login() {
       localStorage.setItem("user",JSON.stringify(obj))
       navigate("/admin")
     }else{
-      axios.post("https://weather-app-backend-snuw.onrender.com/user/login",{email,password})
+      axios.post("https://ill-pink-salmon-garb.cyclic.cloud/user/login",{email,password})
       .then((res)=>{
           localStorage.setItem("token",res.data.token);
           localStorage.setItem("user",JSON.stringify(res.data.user))

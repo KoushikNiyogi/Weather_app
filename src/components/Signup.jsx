@@ -27,7 +27,7 @@ function Signup() {
     const[details,setDetails] = useState(init)
 
     const handleSignup = async () => {
-        axios.post("https://weather-app-backend-snuw.onrender.com/user/register",details)
+        axios.post("https://ill-pink-salmon-garb.cyclic.cloud/user/register",details)
         .then((res)=>{
             navigate("/")
             toast({
